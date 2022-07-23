@@ -1,0 +1,70 @@
+.add_ssh: &add_ssh |
+  mkdir ~/.ssh 
+  echo $SSH_KEY > ~/.ssh/id_rsa 
+  chmod 700 ~/.ssh/
+  chmod 600 ~/.ssh/id_rsa 
+  ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - ./node_modules
+
+  - name: install
+    image: node:16.13.1
+    commands:
+      - npm install
+    depends_on: [restore-cache]
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./node_modules
+    depends_on: [install]
+
+  - name: semantic versionning
+    image: python:3.7
+    commands:
+      - mkdir ~/.ssh
+      - echo $SSH_KEY > ~/.ssh/id_rsa
+      - pip install -r .semver/requirement.txt
+      - python .semver/main.py
+    environment:
+      CI_REPOSITORY_URL:
+        from_secret: CI_REPOSITORY_URL
+      SSH_KEY:
+        from_secret: SSH_KEY
+    when:
+      branch:
+        - master
+      event: push
+    depends_on: [rebuild-cache]
+
+  - name: kaniko
+    image: banzaicloud/drone-kaniko
+    settings:
+      username:
+        from_secret: GITLAB_USERNAME
+      password:
+        from_secret: GITLAB_TOKEN
+      registry: registry.gitlab.com
+      repo: mspr-ci1/mspr-ci-back
+      tags:
+        - ${DRONE_TAG}
+    depends_on: [semantic versionning]
+    
