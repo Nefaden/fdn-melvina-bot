@@ -10,6 +10,7 @@
 </p>
 
 > Bot discord pour les fleurs de Nantes
+deployed with Heroku
 
 ## Install
 
