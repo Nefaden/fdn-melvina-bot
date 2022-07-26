@@ -16,11 +16,35 @@ client.on('interactionCreate', async (interaction) => {
   const { commandName } = interaction;
 
   if (commandName === 'ping') {
-    await interaction.reply('Pong!');
+    try {
+      await interaction.reply('Pong!');
+    } catch (error) {
+      console.error(error);
+    }
   } else if (commandName === 'server') {
-    await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+    try {
+      await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+    } catch (error) {
+      console.error(error);
+    }
   } else if (commandName === 'user') {
-    await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
+    try {
+      await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  } else if (commandName === 'dispo') {
+    try {
+      await interaction.reply('Oui bien sûr, quand tu veux BG :point_right::point_left:');
+    } catch (error) {
+      console.error(error);
+    }
+  } else if (commandName === 'bonjour') {
+    try {
+      await interaction.reply('Hey .... <:fdnBEBOU:986362070415048765>');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (commandName === 'fruis') {
@@ -55,7 +79,7 @@ client.on('messageCreate', (message) => {
     message.react('🦊');
   }
   if (message.author.id === process.env.MONO_ID) {
-    message.react('<:ponceDOG:825776345391824896>');
+    message.react('<:fdnBEBOU:986362070415048765>');
   }
 });
 

@@ -7,6 +7,8 @@ const commands = [
   new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
   new SlashCommandBuilder().setName('user').setDescription('Replies with user info!'),
   new SlashCommandBuilder().setName('fruis').setDescription('React with fruits!'),
+  new SlashCommandBuilder().setName('dispo').setDescription('Dispo bebou'),
+  new SlashCommandBuilder().setName('bonjour').setDescription('Bonjour'),
 ]
   .map((command) => command.toJSON());
 
