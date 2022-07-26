@@ -1,5 +1,5 @@
 {
-	"clientId": "bot-id",
-	"guildId": "server-id",
-	"token": "your-token-goes-here"
+	"clientId": "$CLIENT_ID",
+	"guildId": "$GUILD_ID",
+	"token": "$DISCORD_TOKEN"
 }
