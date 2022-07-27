@@ -44,12 +44,22 @@ jobs:
     - run: npm install
     - uses: actions/checkout@v1
 
-    - name: Login to Heroku Container registry
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
+    - name: Deploy
+      run: |
+        apk add --no-cache rsync openssh
+        mkdir -p ~/.ssh
+        echo ${{ secrets.SSH_PRIVATE }} >> ~/${{ secrets.LOCAL_SSH }}
+        chmod 600 ${{ secrets.LOCAL_SSH }}
+        echo 'Host scaleway\n\tHostname ${{ secrets.IP_SERVER }}\n\tStrictHostKeyChecking accept-new' > ~/"$CONFIG_SSH"
+        rsync -e 'ssh -i $HOME/${{ secrets.LOCAL_SSH }} -o StrictHostKeyChecking=accept-new' -rav --progress --stats --delete www/ root@${{ secrets.IP_SERVER }}:${{ secrets.DEPLOY_PATH }}
 
-    - name: Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push -a fdn-melvina-bot web 
+
+    # - name: Login to Heroku Container registry
+    #   env: 
+    #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #   run: heroku container:login 
+
+    # - name: Build and push
+    #   env:
+    #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #   run: heroku container:push -a fdn-melvina-bot web 
