@@ -20,7 +20,7 @@ jobs:
     - name: Set env
       run: echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> .env 
     - name: Show env
-      run: echo .env
+      run: cat .env
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
