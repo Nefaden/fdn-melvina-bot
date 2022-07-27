@@ -14,6 +14,14 @@ jobs:
         node-version: [16.x]
     steps:
     - uses: actions/checkout@v3
+      
+    - name: Create env file
+      run: touch .env
+    - name: Set env
+      run: echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> .env 
+    - name: Show env
+      run: echo .env
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -21,14 +29,17 @@ jobs:
         cache: 'npm'
     - run: npm install
     - uses: actions/checkout@v1
+
     - name: Login to Heroku Container registry
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: heroku container:login 
+
     - name: Build and push
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: heroku container:push -a fdn-melvina-bot web 
+
     - name: Release
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
