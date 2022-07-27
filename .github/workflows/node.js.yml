@@ -16,11 +16,25 @@ jobs:
     - uses: actions/checkout@v3
       
     - name: Create env file
-      run: touch .env
-    - name: Set env
-      run: echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> .env 
-    - name: Show env
-      run: cat .env
+      run: |
+        touch .env
+        echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> .env 
+        echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env 
+        echo "GUILD_ID=${{ secrets.GUILD_ID }}" >> .env 
+        echo "NEFA_ID=${{ secrets.NEFA_ID }}" >> .env 
+        echo "ESPRIT_ID=${{ secrets.ESPRIT_ID }}" >> .env 
+        echo "MINIBABYMEL_ID=${{ secrets.MINIBABYMEL_ID }}" >> .env 
+        echo "PATON_ID=${{ secrets.PATON_ID }}" >> .env 
+        echo "PUMPKIN_ID=${{ secrets.PUMPKIN_ID }}" >> .env 
+        echo "GOUPIL_ID=${{ secrets.GOUPIL_ID }}" >> .env 
+        echo "MONO_ID=${{ secrets.MONO_ID }}" >> .env 
+        cat .env
+
+    - name: Create JSON config file
+      run: |
+        touch config.json
+        echo "{ clientId=${{ secrets.CLIENT_ID }} guildId=${{ secrets.GUILD_ID }} token=${{ secrets.DISCORD_TOKEN }} }" >> config.json 
+        cat config.json
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
