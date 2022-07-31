@@ -1,6 +1,8 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const autoReacMessage = require('./src/commands/handlers/autoReacMessage');
 const basicsCommands = require('./src/queries/handlers/basicsCommands');
+const help = require('./src/queries/handlers/help');
+const faq = require('./src/queries/handlers/faq');
 const { token } = require('./config.json');
 require('dotenv').config();
 
@@ -14,6 +16,8 @@ client.once('ready', () => {
 
 client.on('interactionCreate', async (interaction) => {
   await basicsCommands(interaction);
+  await help(interaction);
+  await faq(interaction);
 });
 
 client.on('messageCreate', (message) => {

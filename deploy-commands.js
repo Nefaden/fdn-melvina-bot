@@ -10,7 +10,7 @@ const commands = [
   new SlashCommandBuilder().setName('dispo').setDescription('Dispo bebou'),
   new SlashCommandBuilder().setName('bonjour').setDescription('Bonjour'),
   new SlashCommandBuilder().setName('faq').setDescription('Liste des questions fréquemment posées !'),
-  new SlashCommandBuilder().setName('helper').setDescription('Toute l\'aide dont tu as besoin pour utiliser le bot !'),
+  new SlashCommandBuilder().setName('help').setDescription('Toute l\'aide dont tu as besoin pour utiliser le bot !'),
 ]
   .map((command) => command.toJSON());
 
