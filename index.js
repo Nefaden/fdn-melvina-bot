@@ -1,8 +1,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
+const { Sequelize } = require('sequelize');
 const autoReacMessage = require('./src/commands/handlers/autoReacMessage');
 const basicsCommands = require('./src/queries/handlers/basicsCommands');
-const help = require('./src/queries/handlers/help');
-const faq = require('./src/queries/handlers/faq');
 const { token } = require('./config.json');
 require('dotenv').config();
 
@@ -10,14 +9,23 @@ require('dotenv').config();
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 
 // When the client is ready, run this code (only once)
-client.once('ready', () => {
+client.once('ready', async () => {
+  // Create Sequelize instance
+  const sequelize = new Sequelize(`postgres://${process.env.DB_USERNAME}:${process.env.DB_PSWD}@${process.env.IP_DATABASE}:${process.env.PORT_DATABASE}/${process.env.DB_NAME}`);
+
+  // Passing connection string to DB
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+
   console.log('Ready!');
 });
 
 client.on('interactionCreate', async (interaction) => {
   await basicsCommands(interaction);
-  await help(interaction);
-  await faq(interaction);
 });
 
 client.on('messageCreate', (message) => {
