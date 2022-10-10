@@ -1,12 +1,8 @@
 module.exports = async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
-
-  const { commandName } = interaction;
-
-  if (commandName === 'faq') {
-    try {
-      await interaction.reply(
-        `
+  try {
+    await interaction.reply(
+      `
         Voici la liste des questions posées fréquemment :
         \n**Qui es-tu ?**
         Je suis Melvina, la secrétaire en quelque sorte de ce serveur discord !
@@ -17,9 +13,8 @@ module.exports = async (interaction) => {
         Il suffit simplement de taper le slash " / " dans la barre de texte, tu verras ma tête à côté de mes instructions !
         Essaie avec "/help" pour commencer !
         `,
-      );
-    } catch (error) {
-      console.error(error);
-    }
+    );
+  } catch (error) {
+    console.error(error);
   }
 };
