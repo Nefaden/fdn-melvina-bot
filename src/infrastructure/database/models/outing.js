@@ -1,31 +1,56 @@
-const { Sequelize } = require('sequelize');
+const conf = require('../../../../config/appconfig');
 
-const Outing = sequelize.define('tags', {
-  id: {
-    type: Sequelize.UUID,
-    unique: true,
-    required: true,
-    allowNull: false,
-  },
-  description: Sequelize.TEXT,
-  beginDate: {
-    type: Sequelize.DATE,
-    required: true,
-    allowNull: false,
-  },
-  endDate: {
-    type: Sequelize.DATE,
-    required: true,
-    allowNull: false,
-  },
-  place: Sequelize.TEXT,
-  attendeeMax: {
-    type: Sequelize.NUMBER,
-    allowNull: true,
-  },
-  listInteressed: Sequelize.ARRAY(Sequelize.UUID),
-  attendeeQueue: {
-    type: Sequelize.ARRAY(Sequelize.UUID),
-    allowNull: true,
-  },
-});
+const DISCORD_EVENT_SCHEMA = conf.dbschemas.discordevent;
+
+module.exports = (sequelize, DataTypes) => {
+  const outing = sequelize.define(
+    'outing',
+    {
+      id: {
+        type: DataTypes.UUID,
+        unique: true,
+        required: true,
+        allowNull: false,
+      },
+      label: DataTypes.STRING(100),
+      description: DataTypes.TEXT,
+      period: {
+        allowNull: false,
+        type: DataTypes.RANGE(DataTypes.DATE),
+      },
+      creatorId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      creator: {
+        type: DataTypes.JSONB,
+      },
+      place: DataTypes.STRING(100),
+      attendeeMax: {
+        type: DataTypes.NUMBER,
+        allowNull: true,
+      },
+    },
+    {
+      tableName: 'outing',
+      paranoid: true,
+      createdAt: 'creationDate',
+      updatedAt: 'updateDate',
+      deletedAt: 'deleteDate',
+      schema: DISCORD_EVENT_SCHEMA,
+    },
+  );
+  outing.associate = function (models) {
+    outing.addScope(
+      'outing',
+      {
+        include: [{ model: models.attendee, required: true }],
+      },
+      { override: true },
+    );
+    outing.hasMany(models.attendees, {
+      foreignKey: 'outingId',
+    });
+  };
+  return outing;
+};

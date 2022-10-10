@@ -1,20 +1,8 @@
 {
-  "dependencies": {
-    "@discordjs/rest": "^1.0.0",
-    "discord.js": "^14.0.3",
-    "dotenv": "^16.0.1",
-    "pg": "^8.7.3",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.21.3"
-  },
-  "devDependencies": {
-    "eslint": "^8.20.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1"
-  },
+  "name": "FDN-MELVINA-BOT",
+  "version": "1.0.0",
+  "description": "Melvina is a discord bot to help in outing creation, including queueing management",
+  "main": "index.js",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "node index.js",
@@ -22,6 +10,39 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "sequelize": "NODE_ENV=development sequelize",
+    "grants": "node ./src/infrastructure/database/globalGrants/grants.js",
+    "test:unit:coverage": "LOG_LEVEL=error nyc --nycrc-path \".nycrc_unit_test\" --check-coverage --lines 83 --functions 77 --branches 72 --statements 83 --reporter=text --reporter=lcov mocha --opts test/mocha.opts.unit",
+    "test:integ:coverage": "NODE_ENV=test LOG_LEVEL=error nyc --nycrc-path \".nycrc_integ_test\" --check-coverage --lines 87 --functions 86 --branches 56 --statements 88 --reporter=text --reporter=lcov mocha --opts test/mocha.opts.integ",
+    "test:features:coverage": "NODE_ENV=test LOG_LEVEL=error nyc --nycrc-path \".nycrc_features_test\" --check-coverage --lines 70 --functions 70 --statements 70 --reporter=text-summary --reporter=lcov cucumber-js --exit ./test",
+    "test:prepare": "npm run sequelize db:drop || echo 'Erreur de suppression de la DB' && npm run sequelize db:create && npm run sequelize db:migrate",
+    "test:all": "npm run test:unit && npm run test:integ && npm run test:features"
+  },
+  "dependencies": {
+    "@discordjs/rest": "^1.0.0",
+    "bluebird": "^3.7.2",
+    "chai": "^4.3.6",
+    "discord.js": "^14.0.3",
+    "dotenv": "^16.0.1",
+    "faker": "^5.5.3",
+    "lodash": "^4.17.21",
+    "loopbench": "^2.0.0",
+    "moment": "^2.29.4",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.21.3",
+    "tcomb": "^3.2.29",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.6.0",
+    "eslint": "^8.20.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "sequelize-cli": "^6.5.1"
   }
 }

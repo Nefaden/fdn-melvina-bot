@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const { Sequelize } = require('sequelize');
-const autoReacMessage = require('./src/commands/handlers/autoReacMessage');
-const basicsCommands = require('./src/queries/handlers/basicsCommands');
+const autoReacMessage = require('./src/commands/handlers/general/autoReacMessage');
+const basicsCommands = require('./src/commands/handlers/general/basicsCommands');
 const { token } = require('./config.json');
 require('dotenv').config();
 
