@@ -67,7 +67,7 @@ If this error occurs "Could not create /var/run/postgresql/11-main.pg_stat_tmp: 
 ```
 
 ## Usage
-
+### Create DB
 ```sh
 npm run test:prepare
 ```
@@ -89,6 +89,7 @@ npm install -g pg sequelize sequelize-cli
 ```
 Reexecute the prepare or migrate script
 
+### Start the bot
 ```sh
 npm run start
 ```
@@ -117,7 +118,8 @@ npm run test:features
 npm run test:all
 ```
 
-**Tips tests unitaires et intégrations**
+**Tips unit and integration tests**
+
 You can run only one (or more) specified test(s) (who start with `.it`) or a tests group (starting with `.describe`) by adding `.only`.
 Example : 
 ```bash
@@ -126,6 +128,7 @@ Example :
 ```
 
 **Tips tests features**
+
 To execute unique specified feature test, execute this command : 
 ```bash
 npm run test:features -- --name "[scenario name]"
