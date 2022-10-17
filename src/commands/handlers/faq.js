@@ -1,8 +1,14 @@
-module.exports = async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
-  try {
-    await interaction.reply(
-      `
+const { SlashCommandBuilder } = require('discord.js');
+
+module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('faq')
+		.setDescription('Toutes les réponses aux questions que l\' on peut souvent me poser !'),
+	async execute(interaction) {
+		if (!interaction.isChatInputCommand()) return;
+		try {
+			await interaction.reply(
+				`
         Voici la liste des questions posées fréquemment :
         \n**Qui es-tu ?**
         Je suis Melvina, la secrétaire en quelque sorte de ce serveur discord !
@@ -13,8 +19,10 @@ module.exports = async (interaction) => {
         Il suffit simplement de taper le slash " / " dans la barre de texte, tu verras ma tête à côté de mes instructions !
         Essaie avec "/help" pour commencer !
         `,
-    );
-  } catch (error) {
-    console.error(error);
-  }
+			);
+		}
+		catch (error) {
+			console.error(error);
+		}
+	},
 };

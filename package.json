@@ -1,5 +1,5 @@
 {
-  "name": "FDN-MELVINA-BOT",
+  "name": "fdn-melvina-bot",
   "version": "1.0.0",
   "description": "Melvina is a discord bot to help in outing creation, including queueing management",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "eslint .",
     "sequelize": "NODE_ENV=development sequelize",
     "grants": "node ./src/infrastructure/database/globalGrants/grants.js",
     "test:unit:coverage": "LOG_LEVEL=error nyc --nycrc-path \".nycrc_unit_test\" --check-coverage --lines 83 --functions 77 --branches 72 --statements 83 --reporter=text --reporter=lcov mocha --opts test/mocha.opts.unit",
