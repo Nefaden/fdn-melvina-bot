@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "node index.js",
+    "start": "node deploy-commands.js || node index.js",
     "deploy-commands": "node deploy-commands.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
