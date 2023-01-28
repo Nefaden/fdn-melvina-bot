@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
 const { Sequelize } = require('sequelize');
 const { token } = require('./config.json');
 const fs = require('node:fs');
@@ -22,7 +22,7 @@ for (const file of commandFiles) {
 	}
 }
 
-client.once('ready', async () => {
+client.once(Events.ClientReady, async () => {
 	const sequelize = new Sequelize(`postgres://${process.env.DB_USERNAME}:${process.env.DB_PSWD}@${process.env.IP_DATABASE}:${process.env.PORT_DATABASE}/${process.env.DB_NAME}`);
 
 	try {
@@ -36,7 +36,7 @@ client.once('ready', async () => {
 	console.log('Ready!');
 });
 
-client.on('interactionCreate', async (interaction) => {
+client.on(Events.InteractionCreate, async (interaction) => {
 	const command = interaction.client.commands.get(interaction.commandName);
 
 	if (!command) {
@@ -53,13 +53,16 @@ client.on('interactionCreate', async (interaction) => {
 	}
 });
 
-client.on('messageCreate', (message) => {
+client.on(Events.MessageCreate, (message) => {
 	if (message.author.id === process.env.PUMPKIN_ID) {
 		message.react('🎃');
 	}
 	if (message.author.id === process.env.GOUPIL_ID) {
 		message.react('🦊');
 	}
-});
+	if (message.author.id === process.env.KIMIDA_ID) {
+		message.react('🐱');
+	}
+})
 
 client.login(token);
