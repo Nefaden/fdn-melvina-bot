@@ -1,13 +1,13 @@
-const { SlashCommandBuilder } = require('discord.js');
-const {
-	ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle,
-} = require('discord.js');
+import { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 
+/**
+ * TODO interaction type
+ */
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('create-outing')
 		.setDescription('Ouverture d\' une fenêtre pour créer un événement'),
-	async execute(interaction) {
+	async execute(interaction: any) {
 		const modal = new ModalBuilder()
 			.setCustomId('myModal')
 			.setTitle('My Modal');
@@ -22,7 +22,10 @@ module.exports = {
 			.setLabel('What\'s some of your favorite hobbies?')
 			.setStyle(TextInputStyle.Paragraph);
 
-		const firstActionRow = new ActionRowBuilder().addComponents(favoriteColorInput);
+		/**
+		 * TODO as any
+		 */
+		const firstActionRow = new ActionRowBuilder().addComponents(favoriteColorInput) as any;
 		const secondActionRow = new ActionRowBuilder().addComponents(hobbiesInput);
 
 		modal.addComponents(firstActionRow, secondActionRow);

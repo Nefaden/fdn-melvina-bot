@@ -1,12 +1,13 @@
-const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
-const { Sequelize } = require('sequelize');
-const { token } = require('./config.json');
-const fs = require('node:fs');
-const path = require('node:path');
+import { Client, GatewayIntentBits, /*Collection,*/ Events, Message } from 'discord.js';
+import { Sequelize } from 'sequelize';
+import { token } from './config.json';
+/*import fs from 'node:fs';
+import path from 'node:path';*/
+
 require('dotenv').config();
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
-
+/*
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, './src/commands/handlers/');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -20,7 +21,7 @@ for (const file of commandFiles) {
 	else {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
-}
+}*/
 
 client.once(Events.ClientReady, async () => {
 	const sequelize = new Sequelize(`postgres://${process.env.DB_USERNAME}:${process.env.DB_PSWD}@${process.env.IP_DATABASE}:${process.env.PORT_DATABASE}/${process.env.DB_NAME}`);
@@ -36,7 +37,11 @@ client.once(Events.ClientReady, async () => {
 	console.log('Ready!');
 });
 
-client.on(Events.InteractionCreate, async (interaction) => {
+/**
+ * TODO interaction type
+ *//*
+client.on(Events.InteractionCreate, async (interaction: any) => {
+	// interaction = interaction as MessageInteraction;
 	const command = interaction.client.commands.get(interaction.commandName);
 
 	if (!command) {
@@ -51,9 +56,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 	}
-});
+});*/
 
-client.on(Events.MessageCreate, (message) => {
+client.on(Events.MessageCreate, (message: Message) => {
 	if (message.author.id === process.env.PUMPKIN_ID) {
 		message.react('🎃');
 	}

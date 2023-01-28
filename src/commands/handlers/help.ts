@@ -1,10 +1,13 @@
-const { SlashCommandBuilder } = require('discord.js');
+import { SlashCommandBuilder } from 'discord.js';
 
+/**
+ * TODO interaction type
+ */
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('help')
 		.setDescription('Toute l\'aide dont tu as besoin pour utiliser le bot !'),
-	async execute(interaction) {
+	async execute(interaction: any) {
 		if (!interaction.isChatInputCommand()) return;
 
 		const { commandName } = interaction;

@@ -1,10 +1,13 @@
-const { SlashCommandBuilder } = require('discord.js');
+import { SlashCommandBuilder } from 'discord.js';
 
+/**
+ * TODO interaction type
+ */
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('faq')
 		.setDescription('Toutes les réponses aux questions que l\' on peut souvent me poser !'),
-	async execute(interaction) {
+	async execute(interaction: any) {
 		if (!interaction.isChatInputCommand()) return;
 		try {
 			await interaction.reply(

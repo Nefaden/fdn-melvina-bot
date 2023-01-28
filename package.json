@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "node index.js",
+    "start": "tsc && vite-node src/main.ts",
     "deploy-commands": "node deploy-commands.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -28,21 +28,26 @@
     "faker": "^5.5.3",
     "lodash": "^4.17.21",
     "loopbench": "^2.0.0",
-    "moment": "^2.29.4",
+    "moment-mini": "^2.29.4",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.28.0",
     "tcomb": "^3.2.29",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vite-node": "^0.27.0"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^8.6.0",
+    "@types/bluebird": "^3.5.38",
+    "@types/loopbench": "^1.2.1",
+    "@types/node": "^18.11.18",
     "eslint": "^8.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
-    "sequelize-cli": "^6.5.1"
+    "sequelize-cli": "^6.5.1",
+    "typescript": "^4.9.3"
   }
 }
