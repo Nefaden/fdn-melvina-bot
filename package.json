@@ -6,7 +6,7 @@
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "tsc && vite-node src/main.ts",
-    "deploy-commands": "node deploy-commands.js",
+    "deploy-commands": "tsc && vite-node src/deploy-commands.ts",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

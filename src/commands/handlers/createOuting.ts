@@ -1,42 +1,58 @@
-import { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { ActionRowBuilder, ModalBuilder, SlashCommandBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { ACommand } from './command';
 
 /**
  * TODO interaction type
  */
-module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('create-outing')
-		.setDescription('Ouverture d\' une fenêtre pour créer un événement'),
-	async execute(interaction: any) {
-		const modal = new ModalBuilder()
-			.setCustomId('myModal')
-			.setTitle('My Modal');
+export class CreateOutingCommand extends ACommand {
+	public static NAME = 'create-outing';
+	public static DESCRIPTION = 'Ouverture d\'une fenêtre pour créer un événement';
 
-		const favoriteColorInput = new TextInputBuilder()
-			.setCustomId('favoriteColorInput')
-			.setLabel('What\'s your favorite color?')
-			.setStyle(TextInputStyle.Short);
+	public name = CreateOutingCommand.NAME;
 
-		const hobbiesInput = new TextInputBuilder()
-			.setCustomId('hobbiesInput')
-			.setLabel('What\'s some of your favorite hobbies?')
-			.setStyle(TextInputStyle.Paragraph);
+	constructor() {
+		super();
+		this.data = new SlashCommandBuilder()
+			.setName(CreateOutingCommand.NAME)
+			.setDescription(CreateOutingCommand.DESCRIPTION)
+	}
 
-		/**
-		 * TODO as any
-		 */
-		const firstActionRow = new ActionRowBuilder().addComponents(favoriteColorInput) as any;
-		const secondActionRow = new ActionRowBuilder().addComponents(hobbiesInput);
+	public execute(interaction: any) {
+		try {
+			const modal = new ModalBuilder()
+				.setCustomId('myModal')
+				.setTitle('My Modal');
 
-		modal.addComponents(firstActionRow, secondActionRow);
+			const favoriteColorInput = new TextInputBuilder()
+				.setCustomId('favoriteColorInput')
+				.setLabel('What\'s your favorite color?')
+				.setStyle(TextInputStyle.Short);
 
-		await interaction.showModal(modal);
-		if (interaction.customId === 'myModal') {
-			const favoriteColor = interaction.fields.getTextInputValue('favoriteColorInput');
-			const hobbies = interaction.fields.getTextInputValue('hobbiesInput');
-			console.log({ favoriteColor, hobbies });
+			const hobbiesInput = new TextInputBuilder()
+				.setCustomId('hobbiesInput')
+				.setLabel('What\'s some of your favorite hobbies?')
+				.setStyle(TextInputStyle.Paragraph);
+
+			/**
+			 * TODO as any
+			 */
+			const firstActionRow = new ActionRowBuilder().addComponents(favoriteColorInput) as any;
+			const secondActionRow = new ActionRowBuilder().addComponents(hobbiesInput);
+
+			modal.addComponents(firstActionRow, secondActionRow);
+
+			interaction.showModal(modal).then(() => {
+				if (interaction.customId === 'myModal') {
+					const favoriteColor = interaction.fields.getTextInputValue('favoriteColorInput');
+					const hobbies = interaction.fields.getTextInputValue('hobbiesInput');
+					console.log({ favoriteColor, hobbies });
+				}
+				// A mettre en choice (toggle button ? Checkbox ?)
+				// le fait de si oui ou non y a une file d'attente, si c'est le cas, le champ de saisie pour le nombre de personne max s'ajoute
+			});
 		}
-		// A mettre en choice (toggle button ? Checkbox ?)
-		// le fait de si oui ou non y a une file d'attente, si c'est le cas, le champ de saisie pour le nombre de personne max s'ajoute
-	},
-};
+		catch (error) {
+			console.error(error);
+		}
+	}
+}
