@@ -6,6 +6,18 @@ const path = require('node:path');
 require('dotenv').config();
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
+// const client = new Client(
+// 	{
+// 		intents:
+// 		[
+// 			GatewayIntentBits.Guilds,
+// 			GatewayIntentBits.GuildMessages,
+// 			GatewayIntentBits.GuildMessageReactions,
+// 			GatewayIntentBits.GuildMembers,
+// 			GatewayIntentBits.GuildScheduledEvents,
+// 		],
+// 	},
+// );
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, './src/commands/handlers/');
