@@ -1,7 +1,8 @@
 import { Client, GatewayIntentBits, Collection, Events, Message, Interaction, CommandInteraction } from 'discord.js';
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { token } from './config.json';
 import { CommandsDeployer } from './commands/deployer/commandsDeployer';
+// import { Outing } from './infrastructure/database/models/outing'; // Sequelize test
 
 require('dotenv').config();
 
@@ -26,6 +27,18 @@ client.once(Events.ClientReady, async () => {
 	);
 
 	console.log('Ready!');
+
+	/**
+	 * Sequelize test
+	 */
+	//sequelize.addModels([Outing]);
+
+	// insertOuting('Sortie fleurie');
+	/*getOuting('Sortie fleurie').then(
+		outing => {
+			console.log(outing);
+		}
+	);*/
 });
 
 client.on(Events.InteractionCreate, async (interaction: Interaction) => {
@@ -58,3 +71,27 @@ client.on(Events.MessageCreate, (message: Message) => {
 })
 
 client.login(token);
+
+/**
+ * Sequelize test
+ */
+/*
+function insertOuting(label: string): void {
+	const outing = new Outing({
+		label: label,
+		description: 'Venez ça va être cool',
+		period: '2022-01-29',
+		creatorId: process.env.KIMIDA_ID,
+		creator: null,
+		place: 'Nantes',
+		attendeeMax: 10
+	});
+	outing.save();
+}*/
+/*
+/*
+function getOuting(label: string): Promise<any> {
+	return Outing.findAll({
+		where: { label }
+	});
+}*/
