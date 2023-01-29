@@ -1,9 +1,9 @@
-import { ActionRowBuilder, ModalBuilder, SlashCommandBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import {
+	ActionRowBuilder, CommandInteraction, Interaction, ModalBuilder, SlashCommandBuilder, TextInputBuilder,
+	TextInputStyle, ModalSubmitInteraction
+} from 'discord.js';
 import { ACommand } from './command';
 
-/**
- * TODO interaction type
- */
 export class CreateOutingCommand extends ACommand {
 	public static NAME = 'create-outing';
 	public static DESCRIPTION = 'Ouverture d\'une fenêtre pour créer un événement';
@@ -17,7 +17,8 @@ export class CreateOutingCommand extends ACommand {
 			.setDescription(CreateOutingCommand.DESCRIPTION)
 	}
 
-	public execute(interaction: any) {
+	public execute(interaction: Interaction) {
+		const commandInteraction = interaction as CommandInteraction;
 		try {
 			const modal = new ModalBuilder()
 				.setCustomId('myModal')
@@ -33,18 +34,16 @@ export class CreateOutingCommand extends ACommand {
 				.setLabel('What\'s some of your favorite hobbies?')
 				.setStyle(TextInputStyle.Paragraph);
 
-			/**
-			 * TODO as any
-			 */
 			const firstActionRow = new ActionRowBuilder().addComponents(favoriteColorInput) as any;
 			const secondActionRow = new ActionRowBuilder().addComponents(hobbiesInput);
 
 			modal.addComponents(firstActionRow, secondActionRow);
 
-			interaction.showModal(modal).then(() => {
-				if (interaction.customId === 'myModal') {
-					const favoriteColor = interaction.fields.getTextInputValue('favoriteColorInput');
-					const hobbies = interaction.fields.getTextInputValue('hobbiesInput');
+			commandInteraction.showModal(modal).then(() => {
+				const modalSubmitInteraction = interaction as ModalSubmitInteraction;
+				if (modalSubmitInteraction.customId === 'myModal') {
+					const favoriteColor = modalSubmitInteraction.fields.getTextInputValue('favoriteColorInput');
+					const hobbies = modalSubmitInteraction.fields.getTextInputValue('hobbiesInput');
 					console.log({ favoriteColor, hobbies });
 				}
 				// A mettre en choice (toggle button ? Checkbox ?)

@@ -1,9 +1,5 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, Interaction, CommandInteraction } from 'discord.js';
 import { ACommand } from './command';
-
-/**
- * TODO interaction type
- */
 
 export class HelpCommand extends ACommand {
 	public static NAME = 'help';
@@ -18,9 +14,10 @@ export class HelpCommand extends ACommand {
 			.setDescription(HelpCommand.DESCRIPTION)
 	}
 
-	public execute(interaction: any) {
+	public execute(interaction: Interaction) {
+		const commandInteraction = interaction as CommandInteraction;
 		try {
-			interaction.reply(
+			commandInteraction.reply(
 				`Tu as ici la liste des différentes commandes (commençant par " / ") disponible : 
 				- **ping** : je te répondrai par mon plus beau Pong!
 				- **server** : je te fournirai le nom du serveur où on est ainsi que le nombre des utilisateurs présents (bots inclus)

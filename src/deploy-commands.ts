@@ -1,4 +1,4 @@
-import { CommandsDeployer } from "./commandsDeployer";
+import { CommandsDeployer } from "./commands/deployer/commandsDeployer";
 
 const commandsDeployer = new CommandsDeployer();
 

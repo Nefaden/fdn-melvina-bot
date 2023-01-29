@@ -41,6 +41,7 @@
     "@types/bluebird": "^3.5.38",
     "@types/loopbench": "^1.2.1",
     "@types/node": "^18.11.18",
+    "discord-api-types": "^0.37.30",
     "eslint": "^8.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",

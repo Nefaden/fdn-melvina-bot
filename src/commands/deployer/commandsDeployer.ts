@@ -1,10 +1,10 @@
-import { ACommand } from './commands/handlers/command';
-import { HelpCommand } from './commands/handlers/help';
-import { FAQCommand } from './commands/handlers/faq';
+import { ACommand } from '../handlers/command';
+import { HelpCommand } from '../handlers/help';
+import { FAQCommand } from '../handlers/faq';
 import { Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
-import { clientId, guildId, token } from './config.json';
-import { CreateOutingCommand } from './commands/handlers/createOuting';
+import { clientId, guildId, token } from '../../config.json';
+import { CreateOutingCommand } from '../handlers/createOuting';
 
 export class CommandsDeployer {
 	private _commandNames = [
@@ -14,7 +14,7 @@ export class CommandsDeployer {
 	]
 
 	private rest = new REST({ version: '10' }).setToken(token);
-	private _commands: Array<any>;
+	private _commands: Array<ACommand>;
 
 	constructor() {
 		this._commands = [];

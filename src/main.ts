@@ -1,7 +1,7 @@
-import { Client, GatewayIntentBits, Collection, Events, Message } from 'discord.js';
+import { Client, GatewayIntentBits, Collection, Events, Message, Interaction, CommandInteraction } from 'discord.js';
 import { Sequelize } from 'sequelize';
 import { token } from './config.json';
-import { CommandsDeployer } from './commandsDeployer';
+import { CommandsDeployer } from './commands/deployer/commandsDeployer';
 
 require('dotenv').config();
 
@@ -28,14 +28,11 @@ client.once(Events.ClientReady, async () => {
 	console.log('Ready!');
 });
 
-/**
- * TODO interaction type
- */
-client.on(Events.InteractionCreate, async (interaction: any) => {
-	// interaction = interaction as MessageInteraction;
-	const command = interaction.client.commands.get(interaction.commandName);
+client.on(Events.InteractionCreate, async (interaction: Interaction) => {
+	const commandInteraction = interaction as CommandInteraction;
+	const command = interaction.client.commands.get(commandInteraction.commandName);
 	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
+		console.error(`No command matching ${commandInteraction.commandName} was found.`);
 		return;
 	}
 
@@ -44,7 +41,7 @@ client.on(Events.InteractionCreate, async (interaction: any) => {
 	}
 	catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		await commandInteraction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 	}
 });
 

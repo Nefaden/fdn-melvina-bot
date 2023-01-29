@@ -1,9 +1,5 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, Interaction, CommandInteraction } from 'discord.js';
 import { ACommand } from './command';
-
-/**
- * TODO interaction type
- */
 
 export class FAQCommand extends ACommand {
 	public static NAME = 'faq';
@@ -18,9 +14,10 @@ export class FAQCommand extends ACommand {
 			.setDescription(FAQCommand.DESCRIPTION)
 	}
 
-	public execute(interaction: any) {
+	public execute(interaction: Interaction) {
+		const commandInteraction = interaction as CommandInteraction;
 		try {
-			interaction.reply(
+			commandInteraction.reply(
 				`Voici la liste des questions posées fréquemment :
 				\n**Qui es-tu ?**
 				Je suis Melvina, la secrétaire en quelque sorte de ce serveur discord !
