@@ -1,10 +1,14 @@
 import { Client, GatewayIntentBits, Collection, Events, Message, Interaction, CommandInteraction } from 'discord.js';
 import { Sequelize } from 'sequelize-typescript';
-import { token } from './config.json';
+import * as CONFING_JSON from './config.json' assert { type: 'json' };
+import * as dotenv from 'dotenv';
 import { CommandsDeployer } from './commands/deployer/commandsDeployer';
+import { IConfig } from './models/config.model';
 // import { Outing } from './infrastructure/database/models/outing'; // Sequelize test
 
-require('dotenv').config();
+dotenv.config();
+
+const CONFIG: IConfig = (CONFING_JSON as any).default;
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 
@@ -70,7 +74,7 @@ client.on(Events.MessageCreate, (message: Message) => {
 	}
 })
 
-client.login(token);
+client.login(CONFIG.token);
 
 /**
  * Sequelize test

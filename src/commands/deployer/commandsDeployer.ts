@@ -3,8 +3,11 @@ import { HelpCommand } from '../handlers/help';
 import { FAQCommand } from '../handlers/faq';
 import { Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
-import { clientId, guildId, token } from '../../config.json';
+import * as CONFING_JSON from '../../config.json' assert { type: 'json' };
 import { CreateOutingCommand } from '../handlers/createOuting';
+import { IConfig } from 'src/models/config.model';
+
+const CONFIG: IConfig = (CONFING_JSON as any).default;
 
 export class CommandsDeployer {
 	private _commandNames = [
@@ -13,7 +16,7 @@ export class CommandsDeployer {
 		CreateOutingCommand.NAME
 	]
 
-	private rest = new REST({ version: '10' }).setToken(token);
+	private rest = new REST({ version: '10' }).setToken(CONFIG.token);
 	private _commands: Array<ACommand>;
 
 	constructor() {
@@ -46,7 +49,7 @@ export class CommandsDeployer {
 		console.log(`Started refreshing ${this._commandNames.length} application (/) commands.`);
 
 		return this.rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationGuildCommands(CONFIG.clientId, CONFIG.guildId),
 			{ body: this._commands.map(_commands => _commands.data) },
 		);
 	}
