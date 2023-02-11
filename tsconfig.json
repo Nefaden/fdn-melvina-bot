@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "lib": [
+            "esnext"
+        ],
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "esnext",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "rootDir": "src",
+        "outDir": "dist",
+        "baseUrl": ".",
+        "experimentalDecorators": true,
+        "resolveJsonModule": true
+    }
+}

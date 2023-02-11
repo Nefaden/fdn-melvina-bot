@@ -89,6 +89,11 @@ npm install -g pg sequelize sequelize-cli
 ```
 Reexecute the prepare or migrate script
 
+### Deploy the commands
+```sh
+npm run deploy-commands
+```
+
 ### Start the bot
 ```sh
 npm run start
