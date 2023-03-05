@@ -99,6 +99,22 @@ npm run deploy-commands
 npm run start
 ```
 
+## DB relational schema
+```
++------------------------------+         +----------------------------+         +----------------------------+
+|            outing            |         |       outing_attendee      |         |          attendee          |
++------------------------------+         +----------------------------+         +----------------------------+
+| - id: uuid PRIMARY KEY       | <------ | - outingId: uuid           |    /--> | - id: uuid PRIMARY KEY     |
+| - label: string              |         | - attendeeId: UUID         | --/     | - discordId: string        |
+| - description: string        |         | - status: enum             |         +----------------------------+
+| - period: range(datetime)    |         |    ('attendee', 'waiting') |
+| - type: enum('irl', 'vocal') |         | - date: datetime           |
+| - creatorDiscordId: string   |         +----------------------------+
+| - place: string              |
+| - attendeeMax: integer       |
++------------------------------+
+```
+
 ## Run tests
 
 ### Unit tests
