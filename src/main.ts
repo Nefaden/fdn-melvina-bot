@@ -4,7 +4,10 @@ import * as CONFING_JSON from './config.json' assert { type: 'json' };
 import * as dotenv from 'dotenv';
 import { CommandsDeployer } from './commands/deployer/commandsDeployer';
 import { IConfig } from './models/config.model';
-// import { Outing } from './infrastructure/database/models/outing'; // Sequelize test
+import { Outing } from './models/database/outing';
+import { Attendee } from './models/database/attendee';
+import { Outing_Attendee } from './models/database/outing_attendee';
+import { OutingType } from './models/outingType.enum';
 
 dotenv.config();
 
@@ -35,14 +38,18 @@ client.once(Events.ClientReady, async () => {
 	/**
 	 * Sequelize test
 	 */
-	//sequelize.addModels([Outing]);
+	sequelize.addModels([Outing, Attendee, Outing_Attendee]);
 
-	// insertOuting('Sortie fleurie');
+	//insertOuting('Sortie fleurie');
 	/*getOuting('Sortie fleurie').then(
 		outing => {
 			console.log(outing);
 		}
 	);*/
+
+	await Outing.sync();
+	await Attendee.sync();
+	await Outing_Attendee.sync();
 });
 
 client.on(Events.InteractionCreate, async (interaction: Interaction) => {
@@ -79,23 +86,26 @@ client.login(CONFIG.token);
 /**
  * Sequelize test
  */
-/*
+
 function insertOuting(label: string): void {
 	const outing = new Outing({
 		label: label,
 		description: 'Venez ça va être cool',
-		period: '2022-01-29',
+		period: [
+			new Date(Date.UTC(2023, 29, 1)),
+			new Date(Date.UTC(2023, 29, 1))
+		],
+		type: OutingType.IRL,
 		creatorId: process.env.KIMIDA_ID,
-		creator: null,
 		place: 'Nantes',
 		attendeeMax: 10
 	});
 	outing.save();
-}*/
-/*
-/*
+}
+
+
 function getOuting(label: string): Promise<any> {
 	return Outing.findAll({
 		where: { label }
 	});
-}*/
+}
