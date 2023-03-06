@@ -43,7 +43,7 @@ export class Outing extends Model<InferAttributes<Outing>, InferCreationAttribut
 		type: DataType.STRING,
 		allowNull: false,
 	})
-	declare creatorId: string;
+	declare creatorDiscordId: string;
 
 	@Column({
 		type: DataType.STRING(100),
