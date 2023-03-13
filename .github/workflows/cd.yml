@@ -1,0 +1,24 @@
+name: Node.js CD
+
+on:
+  push:
+    branches: [ main, tech-6/setting-continuous-integration ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy using ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.IP_SERVER }}
+        username: ${{ secrets.HOST_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE }}
+        port: 22
+        script: |
+          cd ~/home/etc/nginx/fdn/fdn-melvina-bot
+          git pull origin main
+          git status
+          npm install --only=prod
+          pm2 restart node1

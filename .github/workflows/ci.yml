@@ -1,0 +1,38 @@
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v3
+      
+    - name: Create env file
+      run: |
+        touch .env
+        echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> .env 
+        echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env 
+        echo "GUILD_ID=${{ secrets.GUILD_ID }}" >> .env 
+        cat .env
+
+    - name: Create JSON config file
+      run: |
+        touch config.json
+        echo "{ clientId=${{ secrets.CLIENT_ID }} guildId=${{ secrets.GUILD_ID }} token=${{ secrets.DISCORD_TOKEN }} }" >> config.json 
+        cat config.json
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install    
+    - run: npm run build --if-present
+    - run: npm test
+    - uses: actions/checkout@v1
