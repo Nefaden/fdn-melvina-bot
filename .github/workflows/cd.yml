@@ -21,4 +21,6 @@ jobs:
           git pull origin main
           git status
           npm install --only=prod
-          pm2 restart node1
+          pm2 stop fdn-melvina-bot
+          pm2 delete all
+          pm2 --name fdn-melvina-bot start fdn-melvina-bot -- start
