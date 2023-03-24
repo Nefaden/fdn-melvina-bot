@@ -1,9 +1,10 @@
 import { InferAttributes, InferCreationAttributes } from 'sequelize';
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { OutingType } from 'src/models/outingType.enum';
 
 @Table({
 	tableName: 'outing'
-  })
+})
 export class Outing extends Model<InferAttributes<Outing>, InferCreationAttributes<Outing>> {
 	@Column({
 		type: DataType.UUID,
@@ -30,18 +31,19 @@ export class Outing extends Model<InferAttributes<Outing>, InferCreationAttribut
 		type: DataType.RANGE(DataType.DATE),
 		allowNull: false,
 	})
-	declare period: string;
+	declare period: Array<Date>;
 
 	@Column({
-		type: DataType.INTEGER,
+		type: DataType.ENUM('irl', 'vocal'),
 		allowNull: false,
 	})
-	declare creatorId: string;
+	declare type: OutingType;
 
 	@Column({
-		type: DataType.JSONB,
+		type: DataType.STRING,
+		allowNull: false,
 	})
-	declare creator: string;
+	declare creatorDiscordId: string;
 
 	@Column({
 		type: DataType.STRING(100),
@@ -50,7 +52,7 @@ export class Outing extends Model<InferAttributes<Outing>, InferCreationAttribut
 	declare place: string;
 
 	@Column({
-		type: DataType.NUMBER,
+		type: DataType.INTEGER,
 		allowNull: false,
 	})
 	declare attendeeMax: number;

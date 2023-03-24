@@ -4,16 +4,26 @@ import * as CONFING_JSON from './config.json' assert { type: 'json' };
 import * as dotenv from 'dotenv';
 import { CommandsDeployer } from './commands/deployer/commandsDeployer';
 import { IConfig } from './models/config.model';
-// import { Outing } from './infrastructure/database/models/outing'; // Sequelize test
+import { Outing } from './models/database/outing';
+import { Attendee } from './models/database/attendee';
+import { Outing_Attendee } from './models/database/outing_attendee';
+import { OutingType } from './models/outingType.enum';
+import { AppModule } from './app.module';
+import { OutingsService } from './infra/outing.service';
+import { IOuting } from './models/outing.model';
 
 dotenv.config();
 
 const CONFIG: IConfig = (CONFING_JSON as any).default;
 
+const injector = AppModule.getInjector();
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 
 client.commands = new Collection();
 const commandsDeployer = new CommandsDeployer();
+
+const outingsService = injector.get(OutingsService);
 
 client.once(Events.ClientReady, async () => {
 	const sequelize = new Sequelize(`postgres://${process.env.DB_USERNAME}:${process.env.DB_PSWD}@${process.env.IP_DATABASE}:${process.env.PORT_DATABASE}/${process.env.DB_NAME}`);
@@ -35,14 +45,36 @@ client.once(Events.ClientReady, async () => {
 	/**
 	 * Sequelize test
 	 */
-	//sequelize.addModels([Outing]);
+	sequelize.addModels([Outing, Attendee, Outing_Attendee]);
 
-	// insertOuting('Sortie fleurie');
-	/*getOuting('Sortie fleurie').then(
-		outing => {
+	/*const newOuting = {
+		label: 'Sortie fleurie',
+		description: 'Venez ça va être cool',
+		period: [
+			new Date(Date.UTC(2023, 29, 1)),
+			new Date(Date.UTC(2023, 29, 1))
+		],
+		type: OutingType.IRL,
+		creatorDiscordId: process.env.KIMIDA_ID,
+		place: 'Nantes',
+		attendeeMax: 10
+	};
+	outingsService.addOuting(newOuting).subscribe(
+		(outing: IOuting) => {
+			console.log('Inserted outing:');
 			console.log(outing);
 		}
 	);*/
+	/*outingsService.getOutings().subscribe(
+		(outings: IOuting[]) => console.log(outings)
+	);*/
+	/*outingsService.getOuting('681d6ee2-6787-4964-8af0-ba7df5db5350').subscribe(
+		(outing: IOuting) => console.log(outing)
+	);*/
+
+	/*await Outing.sync();
+	await Attendee.sync();
+	await Outing_Attendee.sync();*/
 });
 
 client.on(Events.InteractionCreate, async (interaction: Interaction) => {
@@ -84,18 +116,15 @@ function insertOuting(label: string): void {
 	const outing = new Outing({
 		label: label,
 		description: 'Venez ça va être cool',
-		period: '2022-01-29',
-		creatorId: process.env.KIMIDA_ID,
-		creator: null,
+		period: [
+			new Date(Date.UTC(2023, 29, 1)),
+			new Date(Date.UTC(2023, 29, 1))
+		],
+		type: OutingType.IRL,
+		creatorDiscordId: process.env.KIMIDA_ID,
 		place: 'Nantes',
 		attendeeMax: 10
 	});
 	outing.save();
-}*/
-/*
-/*
-function getOuting(label: string): Promise<any> {
-	return Outing.findAll({
-		where: { label }
-	});
-}*/
+}
+*/
